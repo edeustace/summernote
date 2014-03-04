@@ -1,27 +1,13 @@
-require.config({
-  baseUrl: 'src/js',
-  paths: {
-    domReady: '../node_modules/requirejs-domready/domReady',
-    jquery: '//code.jquery.com/jquery-1.9.1.min',
-    bootstrap: '//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min',
-    CodeMirror: '//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/codemirror',
-    CodeMirrorXml: '//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/mode/xml/xml.min',
-    CodeMirrorFormatting: '//cdnjs.cloudflare.com/ajax/libs/codemirror/2.36.0/formatting.min'
-  },
-  shim: {
-    bootstrap: ['jquery'],
-    CodeMirror: { exports: 'CodeMirror' },
-    CodeMirrorXml: ['CodeMirror'],
-    CodeMirrorFormatting: ['CodeMirror', 'CodeMirrorXml']
-  }
-});
-
 require([
-  'jquery', 'bootstrap', 'CodeMirrorFormatting',
-  'summernote'
-], function ($) {
+  'require', 'jquery', 'angular', 'bootstrap', 'CodeMirrorFormatting',
+  'summernote', 'angularSummernote'
+], function (require, $, angular) {
+
+    console.log('!! -> module');
+    return angular.module('summernote-spike', ['summernote']);
+
   // summernote
-  $('.summernote').summernote({
+  /*$('.summernote').summernote({
     height: 300,                  // set editable area's height
     focus: true,                  // set focus editable area after summernote loaded
     tabsize: 2,                   // size of tab
@@ -52,5 +38,5 @@ require([
         }
       }
     ]
+  });*/
   });
-});

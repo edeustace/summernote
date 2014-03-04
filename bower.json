@@ -12,6 +12,10 @@
   "dependencies": {
     "jquery": ">= 1.9.0",
     "bootstrap": ">= 3.0.1",
-    "font-awesome": ">= 4.0.1"
+    "font-awesome": ">= 4.0.1",
+    "angular" : "~1.2.14",
+    "angular-summernote": "0.2.1",
+    "requirejs-domready": "latest"
+
   }
 }
