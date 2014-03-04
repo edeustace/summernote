@@ -525,7 +525,7 @@ define([
         
         for (var z = 0; z < options.buttons.length; z++) {
           var b = options.buttons[z];
-          out += '<div class="note-external">' + b.toolbarButton() + '</div>';
+          out += b.toolbarButton(); //+ '</div>';
         }
 
         sToolbar += wrapInGroup(out);
