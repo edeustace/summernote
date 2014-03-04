@@ -32,6 +32,7 @@ require([
       {
         onClick: function (editor, $editable, range) {
           
+          editor.recordUndo($editable);
           editor.restoreRange($editable);
           var url = 'https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcQsUU2rnO7aifTmF-TsnYfEN7HsAXLgYu_iUjzBS6aj1WFh6oPF';
           var $node = $('<img>').attr('src', url);
