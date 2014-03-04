@@ -6,7 +6,6 @@
     "indent": 2,
     "newcap": true,
     "noarg": true,
-    "quotmark": "single",
     "undef": true,
     "unused": true,
     "trailing": true,

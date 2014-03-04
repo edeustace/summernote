@@ -1,8 +1,15 @@
 require([
   'require', 'jquery', 'angular', 'bootstrap', 'CodeMirrorFormatting',
-  'summernote', 'controllers/declaration', 'controllers/main', 'angularSummernote'
+  'summernote',
+  'controllers/declaration', 'controllers/main',
+  'directives/declaration', 'directives/multiple-choice', 'directives/editable-content',
+  'angularSummernote'
 ], function (require, $, angular) {
-    return angular.module('summernote-spike', [ 'summernote-spike.controllers', 'summernote']);
+    return angular.module('summernote-spike', [
+      'summernote-spike.controllers',
+      'summernote-spike.directives',
+      'summernote'
+    ]);
 
   // summernote
   /*$('.summernote').summernote({

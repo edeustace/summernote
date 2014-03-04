@@ -2,6 +2,7 @@ require.config({
   baseUrl: 'src/js',
   paths: {
     jquery: '//code.jquery.com/jquery-2.1.0.min',
+    lodash: '../../bower_components/lodash/dist/lodash.min',
     domReady: '../../bower_components/requirejs-domready/domReady',
     angular: '../../bower_components/angular/angular',
     bootstrap: '//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min',

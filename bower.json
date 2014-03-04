@@ -15,7 +15,8 @@
     "font-awesome": ">= 4.0.1",
     "angular" : "~1.2.14",
     "angular-summernote": "0.2.1",
-    "requirejs-domready": "latest"
+    "requirejs-domready": "latest",
+    "lodash" : "~2.4.1"
 
   }
 }
