@@ -24,6 +24,8 @@ define(
     'require',
     'angular',
     'ng-app',
+    'jquery',
+    'summernote',
   ], function (require, ng) {
       'use strict';
       require(['domReady!'], function (document) {
