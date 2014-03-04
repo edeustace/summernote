@@ -6,7 +6,7 @@
  * Copyright 2013 Alan Hong. and outher contributors
  * summernote may be freely distributed under the MIT license./
  *
- * Date: 2014-02-23T06:42Z
+ * Date: 2014-03-04T13:12Z
  */
 (function (factory) {
   /* global define */
@@ -858,87 +858,6 @@
   };
 
   /**
-   * Style
-   * @class
-   */
-  var Style = function () {
-    /**
-     * passing an array of style properties to .css()
-     * will result in an object of property-value pairs.
-     * (compability with version < 1.9)
-     *
-     * @param  {jQuery} $obj
-     * @param  {Array} propertyNames - An array of one or more CSS properties.
-     * @returns {Object}
-     */
-    var jQueryCSS = function ($obj, propertyNames) {
-      if (agent.jqueryVersion < 1.9) {
-        var result = {};
-        $.each(propertyNames, function (idx, propertyName) {
-          result[propertyName] = $obj.css(propertyName);
-        });
-        return result;
-      }
-      return $obj.css.call($obj, propertyNames);
-    };
-
-    /**
-     * paragraph level style
-     *
-     * @param {WrappedRange} rng
-     * @param {Object} oStyle
-     */
-    this.stylePara = function (rng, oStyle) {
-      $.each(rng.nodes(dom.isPara), function (idx, elPara) {
-        $(elPara).css(oStyle);
-      });
-    };
-
-    /**
-     * get current style on cursor
-     *
-     * @param {WrappedRange} rng
-     * @param {Element} elTarget - target element on event
-     * @return {Object} - object contains style properties.
-     */
-    this.current = function (rng, elTarget) {
-      var $cont = $(dom.isText(rng.sc) ? rng.sc.parentNode : rng.sc);
-      var properties = ['font-family', 'font-size', 'text-align', 'list-style-type', 'line-height'];
-      var oStyle = jQueryCSS($cont, properties) || {};
-
-      oStyle['font-size'] = parseInt(oStyle['font-size']);
-
-      // document.queryCommandState for toggle state
-      oStyle['font-bold'] = document.queryCommandState('bold') ? 'bold' : 'normal';
-      oStyle['font-italic'] = document.queryCommandState('italic') ? 'italic' : 'normal';
-      oStyle['font-underline'] = document.queryCommandState('underline') ? 'underline' : 'normal';
-
-      // list-style-type to list-style(unordered, ordered)
-      if (!rng.isOnList()) {
-        oStyle['list-style'] = 'none';
-      } else {
-        var aOrderedType = ['circle', 'disc', 'disc-leading-zero', 'square'];
-        var bUnordered = $.inArray(oStyle['list-style-type'], aOrderedType) > -1;
-        oStyle['list-style'] = bUnordered ? 'unordered' : 'ordered';
-      }
-
-      var elPara = dom.ancestor(rng.sc, dom.isPara);
-      if (elPara && elPara.style['line-height']) {
-        oStyle['line-height'] = elPara.style.lineHeight;
-      } else {
-        var lineHeight = parseInt(oStyle['line-height']) / parseInt(oStyle['font-size']);
-        oStyle['line-height'] = lineHeight.toFixed(1);
-      }
-
-      oStyle.image = dom.isImg(elTarget) && elTarget;
-      oStyle.anchor = rng.isOnAnchor() && dom.ancestor(rng.sc, dom.isAnchor);
-      oStyle.aAncestor = dom.listAncestor(rng.sc, dom.isEditable);
-
-      return oStyle;
-    };
-  };
-
-  /**
    * range module
    */
   var range = (function () {
@@ -1211,6 +1130,87 @@
       }
     };
   })();
+
+  /**
+   * Style
+   * @class
+   */
+  var Style = function () {
+    /**
+     * passing an array of style properties to .css()
+     * will result in an object of property-value pairs.
+     * (compability with version < 1.9)
+     *
+     * @param  {jQuery} $obj
+     * @param  {Array} propertyNames - An array of one or more CSS properties.
+     * @returns {Object}
+     */
+    var jQueryCSS = function ($obj, propertyNames) {
+      if (agent.jqueryVersion < 1.9) {
+        var result = {};
+        $.each(propertyNames, function (idx, propertyName) {
+          result[propertyName] = $obj.css(propertyName);
+        });
+        return result;
+      }
+      return $obj.css.call($obj, propertyNames);
+    };
+
+    /**
+     * paragraph level style
+     *
+     * @param {WrappedRange} rng
+     * @param {Object} oStyle
+     */
+    this.stylePara = function (rng, oStyle) {
+      $.each(rng.nodes(dom.isPara), function (idx, elPara) {
+        $(elPara).css(oStyle);
+      });
+    };
+
+    /**
+     * get current style on cursor
+     *
+     * @param {WrappedRange} rng
+     * @param {Element} elTarget - target element on event
+     * @return {Object} - object contains style properties.
+     */
+    this.current = function (rng, elTarget) {
+      var $cont = $(dom.isText(rng.sc) ? rng.sc.parentNode : rng.sc);
+      var properties = ['font-family', 'font-size', 'text-align', 'list-style-type', 'line-height'];
+      var oStyle = jQueryCSS($cont, properties) || {};
+
+      oStyle['font-size'] = parseInt(oStyle['font-size']);
+
+      // document.queryCommandState for toggle state
+      oStyle['font-bold'] = document.queryCommandState('bold') ? 'bold' : 'normal';
+      oStyle['font-italic'] = document.queryCommandState('italic') ? 'italic' : 'normal';
+      oStyle['font-underline'] = document.queryCommandState('underline') ? 'underline' : 'normal';
+
+      // list-style-type to list-style(unordered, ordered)
+      if (!rng.isOnList()) {
+        oStyle['list-style'] = 'none';
+      } else {
+        var aOrderedType = ['circle', 'disc', 'disc-leading-zero', 'square'];
+        var bUnordered = $.inArray(oStyle['list-style-type'], aOrderedType) > -1;
+        oStyle['list-style'] = bUnordered ? 'unordered' : 'ordered';
+      }
+
+      var elPara = dom.ancestor(rng.sc, dom.isPara);
+      if (elPara && elPara.style['line-height']) {
+        oStyle['line-height'] = elPara.style.lineHeight;
+      } else {
+        var lineHeight = parseInt(oStyle['line-height']) / parseInt(oStyle['font-size']);
+        oStyle['line-height'] = lineHeight.toFixed(1);
+      }
+
+      oStyle.image = dom.isImg(elTarget) && elTarget;
+      oStyle.anchor = rng.isOnAnchor() && dom.ancestor(rng.sc, dom.isAnchor);
+      oStyle.aAncestor = dom.listAncestor(rng.sc, dom.isEditable);
+
+      return oStyle;
+    };
+  };
 
   /**
    * Table
@@ -2090,6 +2090,8 @@
    * EventHandler
    */
   var EventHandler = function () {
+
+    var eventHandlers;
     var editor = new Editor();
     var toolbar = new Toolbar(), popover = new Popover();
     var handle = new Handle(), dialog = new Dialog();
@@ -2296,6 +2298,14 @@
         var cmEditor;
 
         var options = $editor.data('options');
+
+        if (eventHandlers) {
+          var handler = eventHandlers[sEvent];
+          handler(editor, $editable, range);
+          hToolbarAndPopoverUpdate(event);
+          return;
+        }
+
 
         // before command: detect control selection element($target)
         var $target;
@@ -2532,6 +2542,15 @@
       }).on('dragover', false); // prevent default dragover event
     };
 
+
+    function buildEventHandlers(buttons) {
+      var out = {};
+      for (var i = 0; i < buttons.length; i++) {
+        out[buttons[i].uid] = buttons[i].onClick;
+      }
+      return out;
+    }
+
     /**
      * attach eventhandler
      *
@@ -2540,6 +2559,11 @@
      * @param {Function} options.enter - enter key handler
      */
     this.attach = function (oLayoutInfo, options) {
+
+      if (options.buttons) {
+        eventHandlers = buildEventHandlers(options.buttons);
+      }
+
       oLayoutInfo.editable.on('keydown', hKeydown);
       oLayoutInfo.editable.on('mousedown', hMousedown);
       oLayoutInfo.editable.on('keyup mouseup', hToolbarAndPopoverUpdate);
@@ -3116,6 +3140,15 @@
 
       var langInfo = $.summernote.lang[options.lang];
 
+
+      function wrapInGroup(contents, className) {
+
+        className = className || '';
+
+        return '<div class="btn-group ' + className + '">' + contents + '</div>';
+
+      }
+
       //04. create Toolbar
       var sToolbar = '';
       for (var idx = 0, sz = options.toolbar.length; idx < sz; idx ++) {
@@ -3125,6 +3158,18 @@
           sToolbar += tplToolbarInfo[group[1][i]](langInfo);
         }
         sToolbar += '</div>';
+      }
+
+      if (options.buttons) {
+
+        var out = '';
+        
+        for (var z = 0; z < options.buttons.length; z++) {
+          var b = options.buttons[z];
+          out += '<div class="note-external">' + b.toolbarButton() + '</div>';
+        }
+
+        sToolbar += wrapInGroup(out);
       }
 
       sToolbar = '<div class="note-toolbar btn-toolbar">' + sToolbar + '</div>';
