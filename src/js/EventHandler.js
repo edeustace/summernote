@@ -1,16 +1,18 @@
 define([
   'CodeMirror',
-  'core/agent', 'core/dom', 'core/async', 'core/key',
+  'core/agent', 'core/dom', 'core/async', 'core/key', 'core/range',
   'editing/Style', 'editing/Editor', 'editing/History',
   'module/Toolbar', 'module/Popover', 'module/Handle', 'module/Dialog'
 ], function (CodeMirror,
-             agent, dom, async, key,
+             agent, dom, async, key, range,
              Style, Editor, History,
              Toolbar, Popover, Handle, Dialog) {
   /**
    * EventHandler
    */
   var EventHandler = function () {
+
+    var eventHandlers;
     var editor = new Editor();
     var toolbar = new Toolbar(), popover = new Popover();
     var handle = new Handle(), dialog = new Dialog();
@@ -217,6 +219,14 @@ define([
         var cmEditor;
 
         var options = $editor.data('options');
+
+        if (eventHandlers) {
+          var handler = eventHandlers[sEvent];
+          handler(editor, $editable, range);
+          hToolbarAndPopoverUpdate(event);
+          return;
+        }
+
 
         // before command: detect control selection element($target)
         var $target;
@@ -453,6 +463,15 @@ define([
       }).on('dragover', false); // prevent default dragover event
     };
 
+
+    function buildEventHandlers(buttons) {
+      var out = {};
+      for (var i = 0; i < buttons.length; i++) {
+        out[buttons[i].uid] = buttons[i].onClick;
+      }
+      return out;
+    }
+
     /**
      * attach eventhandler
      *
@@ -461,6 +480,11 @@ define([
      * @param {Function} options.enter - enter key handler
      */
     this.attach = function (oLayoutInfo, options) {
+
+      if (options.buttons) {
+        eventHandlers = buildEventHandlers(options.buttons);
+      }
+
       oLayoutInfo.editable.on('keydown', hKeydown);
       oLayoutInfo.editable.on('mousedown', hMousedown);
       oLayoutInfo.editable.on('keyup mouseup', hToolbarAndPopoverUpdate);

@@ -499,6 +499,15 @@ define([
 
       var langInfo = $.summernote.lang[options.lang];
 
+
+      function wrapInGroup(contents, className) {
+
+        className = className || '';
+
+        return '<div class="btn-group ' + className + '">' + contents + '</div>';
+
+      }
+
       //04. create Toolbar
       var sToolbar = '';
       for (var idx = 0, sz = options.toolbar.length; idx < sz; idx ++) {
@@ -508,6 +517,18 @@ define([
           sToolbar += tplToolbarInfo[group[1][i]](langInfo);
         }
         sToolbar += '</div>';
+      }
+
+      if (options.buttons) {
+
+        var out = '';
+        
+        for (var z = 0; z < options.buttons.length; z++) {
+          var b = options.buttons[z];
+          out += '<div class="note-external">' + b.toolbarButton() + '</div>';
+        }
+
+        sToolbar += wrapInGroup(out);
       }
 
       sToolbar = '<div class="note-toolbar btn-toolbar">' + sToolbar + '</div>';
