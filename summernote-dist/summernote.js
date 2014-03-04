@@ -6,7 +6,7 @@
  * Copyright 2013 Alan Hong. and outher contributors
  * summernote may be freely distributed under the MIT license./
  *
- * Date: 2014-03-04T13:19Z
+ * Date: 2014-03-04T13:24Z
  */
 (function (factory) {
   /* global define */
@@ -2301,9 +2301,12 @@
 
         if (eventHandlers) {
           var handler = eventHandlers[sEvent];
-          handler(editor, $editable, range);
-          hToolbarAndPopoverUpdate(event);
-          return;
+
+          if (handler) {
+            handler(editor, $editable, range);
+            hToolbarAndPopoverUpdate(event);
+            return;
+          }
         }
 
 
