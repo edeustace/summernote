@@ -1,6 +1,8 @@
 # Summernote
 Super Simple WYSIWYG Editor on Bootstrap(3.0 and 2.x).
 
+Toolbar extension points ..
+
 [![Build Status](https://secure.travis-ci.org/HackerWins/summernote.png)](http://travis-ci.org/HackerWins/summernote)
 [![Built with Grunt](https://cdn.gruntjs.com/builtwith.png)](http://gruntjs.com/)
 
