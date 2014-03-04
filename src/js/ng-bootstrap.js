@@ -1,7 +1,7 @@
 require.config({
   baseUrl: 'src/js',
   paths: {
-    jquery: '//code.jquery.com/jquery-1.9.1.min',
+    jquery: '//code.jquery.com/jquery-2.1.0.min',
     domReady: '../../bower_components/requirejs-domready/domReady',
     angular: '../../bower_components/angular/angular',
     bootstrap: '//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min',
@@ -11,6 +11,7 @@ require.config({
   },
   shim: {
     angular: { exports: 'angular'},
+
     bootstrap: ['jquery'],
     CodeMirror: { exports: 'CodeMirror' },
     CodeMirrorXml: ['CodeMirror'],
@@ -21,11 +22,11 @@ require.config({
 define(
   [
     'require',
+    'jquery',
     'angular',
     'ng-app',
-    'jquery',
     'summernote',
-  ], function (require, ng) {
+  ], function (require, jquery, ng) {
       'use strict';
       require(['domReady!'], function (document) {
         ng.bootstrap(document, ['summernote-spike']);

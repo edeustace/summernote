@@ -3,10 +3,10 @@
  * Licensed under the MIT license.
  * <http://outsider.mit-license.org/>
  */
-/* global angular */
-angular.module('summernote', [])
 
-  .controller('SummernoteController', ['$scope', '$attrs', function($scope, $attrs) {
+require(['jquery', 'angular', 'summernote'], function (jquery, angular) {
+
+  angular.module('summernote', []).controller('SummernoteController', ['$scope', '$attrs', function($scope, $attrs) {
     'use strict';
 
     var currentElement,
@@ -44,6 +44,8 @@ angular.module('summernote', [])
         $scope.keyup({evt:evt});
       };
 
+      summernoteConfig.buttons = $scope.toolbarAddons;
+      
       element.summernote(summernoteConfig);
       var editor$ = element.next('.note-editor');
       editor$.find('.note-toolbar').click(function() {
@@ -86,7 +88,8 @@ angular.module('summernote', [])
         blur: '&onBlur',
         keyup: '&onKeyup',
         keydown: '&onKeydown',
-        imageUpload: '&onImageUpload'
+        imageUpload: '&onImageUpload',
+        toolbarAddons: '='
       },
       template: '<div class="summernote"></div>',
       link: function(scope, element, attrs, ctrls) {
@@ -97,3 +100,9 @@ angular.module('summernote', [])
       }
     };
   }]);
+    
+  });
+
+
+
+

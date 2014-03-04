@@ -1,10 +1,8 @@
 require([
   'require', 'jquery', 'angular', 'bootstrap', 'CodeMirrorFormatting',
-  'summernote', 'angularSummernote'
+  'summernote', 'controllers/declaration', 'controllers/main', 'angularSummernote'
 ], function (require, $, angular) {
-
-    console.log('!! -> module');
-    return angular.module('summernote-spike', ['summernote']);
+    return angular.module('summernote-spike', [ 'summernote-spike.controllers', 'summernote']);
 
   // summernote
   /*$('.summernote').summernote({

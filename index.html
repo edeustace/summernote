@@ -14,16 +14,18 @@
 
   <!-- summernote with less and requirejs -->
   <link rel="stylesheet/less" type="text/css" href="src/less/summernote.less" /> 
+  <!-- hack to ensure $ is used by angular instead of jq lite -->
+  <script src="//code.jquery.com/jquery-2.1.0.min.js"></script>
   <script data-main="src/js/ng-bootstrap" src="//cdnjs.cloudflare.com/ajax/libs/require.js/2.1.9/require.min.js"></script>
 </head>
 <body>
-<div class="container">
+<div class="container" ng-controller="Main">
   <h4>Lately library
     <span class="label label-info">Bootstrap v3.0.3</span>
     <span class="label label-success">font-awesome v4.0.3</span>
     <span class="label label-danger">CodeMirror v3.20.0</span>
   </h4>
-  <summernote></summernote>
+  <summernote toolbar-addons="toolbarAddons"></summernote>
 </div>
 <script type="text/javascript">
   less = {
