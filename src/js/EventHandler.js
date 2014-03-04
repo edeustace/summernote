@@ -222,9 +222,12 @@ define([
 
         if (eventHandlers) {
           var handler = eventHandlers[sEvent];
-          handler(editor, $editable, range);
-          hToolbarAndPopoverUpdate(event);
-          return;
+
+          if (handler) {
+            handler(editor, $editable, range);
+            hToolbarAndPopoverUpdate(event);
+            return;
+          }
         }
 
 
