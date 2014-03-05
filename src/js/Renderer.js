@@ -465,7 +465,7 @@ define([
      * @param {jQuery} $holder
      * @param {Object} options
      */
-    this.createLayout = function ($holder, options) {
+    this.createLayout = function ($holder, options, features) {
       //already created
       var next = $holder.next();
       if (next && next.hasClass('note-editor')) { return; }
@@ -501,11 +501,8 @@ define([
 
 
       function wrapInGroup(contents, className) {
-
         className = className || '';
-
         return '<div class="btn-group ' + className + '">' + contents + '</div>';
-
       }
 
       //04. create Toolbar
@@ -519,7 +516,11 @@ define([
         sToolbar += '</div>';
       }
 
-      if (options.buttons) {
+      for (var z = 0; z < features.length; z++) {
+        sToolbar += features[z].toolbarButton();
+      }
+
+      /*if (options.buttons) {
 
         var out = '';
         
@@ -529,7 +530,7 @@ define([
         }
 
         sToolbar += wrapInGroup(out);
-      }
+      }*/ 
 
       sToolbar = '<div class="note-toolbar btn-toolbar">' + sToolbar + '</div>';
 

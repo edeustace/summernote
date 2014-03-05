@@ -1,8 +1,9 @@
 define([
+  'new-modules/Editor', 'features/Bold', 'features/Italic',
   'core/agent', 'core/dom',
   'settings',
   'EventHandler', 'Renderer'
-], function (agent, dom, settings, EventHandler, Renderer) {
+], function (Editor, Bold, Italic, agent, dom, settings, EventHandler, Renderer) {
   // jQuery namespace for summernote
   $.summernote = $.summernote || {};
 
@@ -11,6 +12,37 @@ define([
 
   var renderer = new Renderer();
   var eventHandler = new EventHandler();
+
+  function BoldFeature() {
+    var $button;
+    this.name = 'bold';
+
+    function onClick() {
+      document.execCommand('bold', false);
+    }
+
+    this.toolbarButton = function ($holder) {
+      $button = $('<button type="button" class="btn btn-default btn-sm btn-small" title="' + name + '" data-shortcut="Ctrl+B" data-mac-shortcut="⌘+B" data-event="bolds" tabindex="-1"><i class="fa fa-bold icon-bold"></i></button>');
+      $holder.append($button);
+      $button.click(onClick);
+    };
+
+    this.editorUpdate = function () {
+      var isBold = document.queryCommandState('bold');
+      if (isBold) {
+        $button.addClass('active');
+      } else {
+        $button.removeClass('active');
+      }
+    };
+  }
+
+  var features = [
+    //new BoldFeature()
+    new Bold(),
+    new Italic()
+  ];
+
 
   /**
    * extend jquery fn
@@ -30,18 +62,24 @@ define([
       this.each(function (idx, elHolder) {
         var $holder = $(elHolder);
 
-        // createLayout with options
-        renderer.createLayout($holder, options);
+        //1. createLayout from features
 
-        var info = renderer.layoutInfoFromHolder($holder);
-        eventHandler.attach(info, options);
+        var editor = new Editor($holder, features, options);
+        $holder.data('editor', editor);
+
+
+        // createLayout with options
+        //renderer.createLayout($holder, options, features);
+
+        //var info = renderer.layoutInfoFromHolder($holder);
+        //eventHandler.attach(info, options);
 
         // Textarea: auto filling the code before form submit.
-        if (dom.isTextarea($holder[0])) {
-          $holder.closest('form').submit(function () {
-            $holder.html($holder.code());
-          });
-        }
+        //if (dom.isTextarea($holder[0])) {
+        //  $holder.closest('form').submit(function () {
+        //    $holder.html($holder.code());
+        //  });
+        //}
       });
 
       // focus on first editable element
@@ -64,7 +102,6 @@ define([
      *
      * @param {String} [sHTML] - HTML contents(optional, set)
      * @returns {this|String} - context(set) or HTML contents of note(get).
-     */
     code: function (sHTML) {
       // get the HTML contents of note
       if (sHTML === undefined) {
@@ -89,11 +126,11 @@ define([
 
       return this;
     },
+     */
 
     /**
      * destroy Editor Layout and dettach Key and Mouse Event
      * @returns {this}
-     */
     destroy: function () {
       this.each(function (idx, elHolder) {
         var $holder = $(elHolder);
@@ -106,5 +143,6 @@ define([
 
       return this;
     }
+     */
   });
 });
