@@ -33,7 +33,6 @@ define(['editing/Editor'], function(Editor) {
     };
 
     this.onKeydown = function(event) {
-
       if (event.keyCode === 13) {
         event.preventDefault();
         event.stopPropagation();
@@ -71,7 +70,6 @@ define(['editing/Editor'], function(Editor) {
       $(node).bind('keydown', this.onKeydown);
     };
 
-
     var tag = ['<button type="button" ',
       '  class="btn btn-default btn-sm btn-small" ',
       '  title="picture" tabindex="-1"> ',
@@ -82,7 +80,6 @@ define(['editing/Editor'], function(Editor) {
     this.toolbarButton = function($holder) {
       this.$button = $(tag);
       $holder.append(this.$button);
-
       this.$button.click(this.onToolbarClick.bind(this));
     };
 
@@ -93,7 +90,6 @@ define(['editing/Editor'], function(Editor) {
     this.editorUpdate = function(e) {
       //console.log('!', e);
     };
-
   }
 
   return ExclamationMark;
