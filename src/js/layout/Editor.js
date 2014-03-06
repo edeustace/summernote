@@ -5,6 +5,21 @@ define(['layout/toolbar',
 
   function Renderer(options) {
 
+
+    function initializeMarkup($container, features) {
+      for (var i = 0; i < features.length; i++) {
+        var f = features[i];
+        if (f.processMarkup) {
+          /* jshint ignore:start */
+          $container.find(f.name).each(function() {
+            $(this).replaceWith(f.processMarkup(this));
+          });
+          /* jshint ignore:end */
+        }
+      }
+    }
+
+
     this.render = function($holder, features) {
       var next = $holder.next();
       if (next && next.hasClass('note-editor')) {
@@ -60,7 +75,11 @@ define(['layout/toolbar',
 
       //$editable.focus
       $editable.data('NoteHistory', new History());
-      $editable.html(dom.html($holder) || dom.emptyPara);
+
+      //var $preppedHtml = prepareHtml($holder, features);
+      $editable.html($holder.html() || '<div></div>');
+
+      initializeMarkup($editable, features);
 
       toolbarLayout.render($editor, features);
       $editor.insertAfter($holder);

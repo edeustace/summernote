@@ -2,6 +2,10 @@ define(['editing/Editor'], function(Editor) {
 
   function ExclamationMark() {
 
+    this.name = 'exclamation-mark';
+
+    this.$button = undefined;
+
     var getEditable;
 
     var editor = new Editor();
@@ -10,19 +14,12 @@ define(['editing/Editor'], function(Editor) {
       return nodeName === this.name;
     };
 
-    this.hide = function() {
-      /*console.log('[Image] hide..');
-      this.$handle.children().hide();
-      this.$popover.find('button').unbind('click');
-      this.$popover.children().hide();*/
+    this.processMarkup = function(node) {
+      return this.addNode($(node).text());
     };
 
-    this.editHandler = function(img, $editable) {
-      /*console.log('!edit..');
-      var proxy = $.proxy(this.onPopoverClick.bind(this, img), this);
-      this.$popover.find('button').click(proxy);
-      this.updateHandle(img);
-      this.updatePopover(img);*/
+    this.customiseMarkup = function(node) {
+      return '<exclamation-mark>' + $(node).data('em-text') + '</exclamation-mark>';
     };
 
     this.onKeyup = function(event) {
@@ -32,7 +29,7 @@ define(['editing/Editor'], function(Editor) {
       var rawText = $(event.target).text().replace(/(.*?)!(.*)/, '$1');
       $(event.target).find('#txt').text(rawText);
       console.log('rawText', rawText);
-      $(event.target).data('em-text', rawText);
+      $(event.currentTarget).data('em-text', rawText);
     };
 
     this.onKeydown = function(event) {
@@ -44,22 +41,39 @@ define(['editing/Editor'], function(Editor) {
       }
     };
 
+    this.template = function(text) {
+      return [
+        '<div contenteditable="false">',
+        '  <div contenteditable="false" style="border: solid 1px #4499ff;">',
+        '    <span id="txt" contentEditable="true">' + text + '</span><span contenteditable="false">!</span>',
+        '  </div>',
+        '</div>'
+      ].join('\n');
+    };
+
+    this.addNode = function(text) {
+      var $em = $('<exclamation-mark>');
+      $em.data('em-text', text);
+      var $n = $em.append($('<div contenteditable="false" style="border: solid 1px #4499ff;">'));
+      $n.html('<div contenteditable="false"><span id="txt" contentEditable="true">' + text + '</span><span contenteditable="false">!</span></div>');
+      //var node = editor.insertMarkup(getEditable(), $em[0]);
+      $em.bind('keyup', this.onKeyup);
+      $em.bind('keydown', this.onKeydown);
+      return $em;
+    };
+
     this.onToolbarClick = function(event) {
       event.preventDefault();
       event.stopPropagation();
       var $em = $('<exclamation-mark>');
+      $em.data('em-text', 'hello');
       var $n = $em.append($('<div contenteditable="false" style="border: solid 1px #4499ff;">'));
       $n.html('<div contenteditable="false"><span id="txt" contentEditable="true">hello</span><span contenteditable="false">!</span></div>');
       var node = editor.insertMarkup(getEditable(), $em[0]);
       $(node).bind('keyup', this.onKeyup);
       $(node).bind('keydown', this.onKeydown);
-      //$(node).bind('click', function(e) {
-      //  console.log('! click');
-      //});
     };
 
-    this.name = 'exclamation-mark';
-    this.$button = undefined;
 
     var tag = ['<button type="button" ',
       '  class="btn btn-default btn-sm btn-small" ',

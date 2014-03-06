@@ -77,10 +77,23 @@ define([
         return;
       }
       var info = renderer.layoutInfoFromHolder($holder);
-      if ( !! (info && info.editable)) {
-        return info.editable.html();
+
+      var $clone = info.editable.clone(true, true).off();
+
+      function replaceMarkup() {
+        $(this).replaceWith(f.customiseMarkup(this));
       }
-      return $holder.html();
+
+      for (var i = 0; i < features.length; i++) {
+
+        var f = features[i];
+
+        if (f.customiseMarkup) {
+          $clone.find(f.name).each(replaceMarkup);
+        }
+      }
+      return $clone.first().html();
+      //return info.editable.html();
     }
   });
 });
