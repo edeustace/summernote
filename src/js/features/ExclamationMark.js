@@ -54,9 +54,9 @@ define(['editing/Editor'], function(Editor) {
     this.addNode = function(text) {
       var $em = $('<exclamation-mark>');
       $em.data('em-text', text);
+      //Note: keyup and key down need to be wrapped in a non editable div
       var $n = $em.append($('<div contenteditable="false" style="border: solid 1px #4499ff;">'));
       $n.html('<div contenteditable="false"><span id="txt" contentEditable="true">' + text + '</span><span contenteditable="false">!</span></div>');
-      //var node = editor.insertMarkup(getEditable(), $em[0]);
       $em.bind('keyup', this.onKeyup);
       $em.bind('keydown', this.onKeydown);
       return $em;
@@ -65,11 +65,8 @@ define(['editing/Editor'], function(Editor) {
     this.onToolbarClick = function(event) {
       event.preventDefault();
       event.stopPropagation();
-      var $em = $('<exclamation-mark>');
-      $em.data('em-text', 'hello');
-      var $n = $em.append($('<div contenteditable="false" style="border: solid 1px #4499ff;">'));
-      $n.html('<div contenteditable="false"><span id="txt" contentEditable="true">hello</span><span contenteditable="false">!</span></div>');
-      var node = editor.insertMarkup(getEditable(), $em[0]);
+      var $newNode = this.addNode('hello - i\'m an exclamation mark');
+      var node = editor.insertMarkup(getEditable(), $newNode[0]);
       $(node).bind('keyup', this.onKeyup);
       $(node).bind('keydown', this.onKeydown);
     };

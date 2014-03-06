@@ -77,7 +77,7 @@ define(['layout/toolbar',
       $editable.data('NoteHistory', new History());
 
       //var $preppedHtml = prepareHtml($holder, features);
-      $editable.html($holder.html() || '<div></div>');
+      $editable.html('<div><br/>' + $holder.html() + '<br/></div>' || '<div></div>');
 
       initializeMarkup($editable, features);
 
