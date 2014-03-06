@@ -4,6 +4,7 @@ define([], function() {
     var $editable;
 
     var currentFeature;
+    var currentNode;
 
     function findFeatureEditor(nodeName) {
 
@@ -33,10 +34,11 @@ define([], function() {
       var nodeName = e.target.nodeName;
 
       var newFeature = findFeatureEditor(nodeName.toLowerCase());
-      if (currentFeature && currentFeature !== newFeature) {
+      if (currentFeature && (currentFeature !== newFeature || currentNode !== e.target)) {
         currentFeature.hide();
       }
 
+      currentNode = e.target;
       currentFeature = newFeature;
 
       if (currentFeature) {

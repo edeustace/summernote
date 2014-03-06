@@ -87,8 +87,9 @@ define(['editing/Editor'], function(Editor) {
     };
 
     this.hide = function() {
+      console.log('[Image] hide..');
       this.$handle.children().hide();
-      this.$popover.find('button').off('click');
+      this.$popover.find('button').unbind('click');
       this.$popover.children().hide();
     };
 
@@ -153,6 +154,7 @@ define(['editing/Editor'], function(Editor) {
 
       function fnInsertImage(url) {
         editor.restoreRange(getEditable());
+        console.log('[Image] insertImage: ', url);
         editor.insertImage(getEditable(), url);
       }
 
@@ -176,8 +178,8 @@ define(['editing/Editor'], function(Editor) {
         event.stopPropagation();
         getEditable().focus();
         $imageInput.off('change');
-        //$imageUrl.off('keyup');
-        //$imageBtn.off('click');
+        $imageUrl.off('keyup');
+        $imageBtn.off('click');
       });
       this.$dialog.modal('show');
     };
