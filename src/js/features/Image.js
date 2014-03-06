@@ -219,7 +219,7 @@ define(['editing/Editor'], function(Editor) {
     };
 
     this.editorUpdate = function(e) {
-      console.log('!', e);
+      //console.log('!', e);
     };
 
     this.onPopoverClick = function(img, event) {

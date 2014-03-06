@@ -3,11 +3,12 @@ define([
   'features/Bold',
   'features/Italic',
   'features/Image',
+  'features/ExclamationMark',
   'core/agent', 'core/dom', 'core/async',
   'editing/Editor',
   'settings',
   'EventHandler', 'Renderer'
-], function(Editor, Bold, Italic, Image, agent, dom, async, SEditor, settings, EventHandler, Renderer) {
+], function(Editor, Bold, Italic, Image, ExclamationMark, agent, dom, async, SEditor, settings, EventHandler, Renderer) {
   // jQuery namespace for summernote
   $.summernote = $.summernote || {};
 
@@ -31,7 +32,8 @@ define([
   var features = [
     new Bold(),
     new Italic(),
-    new Image(filesToSrcHandler)
+    new Image(filesToSrcHandler),
+    new ExclamationMark()
   ];
 
 
