@@ -65,9 +65,7 @@ define(['editing/Editor'], function(Editor) {
       event.preventDefault();
       event.stopPropagation();
       var $newNode = this.addNode('hello - i\'m an exclamation mark');
-      var node = editor.insertMarkup(getEditable(), $newNode[0]);
-      $(node).bind('keyup', this.onKeyup);
-      $(node).bind('keydown', this.onKeydown);
+      editor.insertMarkup(getEditable(), $newNode[0]);
     };
 
     var tag = ['<button type="button" ',
