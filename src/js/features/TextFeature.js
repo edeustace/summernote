@@ -1,10 +1,10 @@
 define([], function () {
   
   function TextFeature() {}
-  
 
   TextFeature.prototype.onClick = function () {
     document.execCommand(this.name, false);
+    this.editorUpdate();
   };
 
   TextFeature.prototype.name = 'abstract';
@@ -23,6 +23,13 @@ define([], function () {
     } else {
       this.$button.removeClass('active');
     }
+  };
+
+  TextFeature.build = function (name) {
+    function Feature() {}
+    Feature.prototype = Object.create(TextFeature.prototype);
+    Feature.prototype.name = name;
+    return Feature;
   };
 
   return TextFeature;

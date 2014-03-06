@@ -1,9 +1,13 @@
 define([
-  'new-modules/Editor', 'features/Bold', 'features/Italic',
-  'core/agent', 'core/dom',
+  'new-modules/Editor',
+  'features/Bold',
+  'features/Italic',
+  'features/Image',
+  'core/agent', 'core/dom', 'core/async',
+  'editing/Editor',
   'settings',
   'EventHandler', 'Renderer'
-], function (Editor, Bold, Italic, agent, dom, settings, EventHandler, Renderer) {
+], function (Editor, Bold, Italic, Image, agent, dom, async, SEditor, settings, EventHandler, Renderer) {
   // jQuery namespace for summernote
   $.summernote = $.summernote || {};
 
@@ -11,36 +15,23 @@ define([
   $.extend($.summernote, settings);
 
   var renderer = new Renderer();
-  var eventHandler = new EventHandler();
+  var sEditor = new SEditor();
 
-  function BoldFeature() {
-    var $button;
-    this.name = 'bold';
-
-    function onClick() {
-      document.execCommand('bold', false);
-    }
-
-    this.toolbarButton = function ($holder) {
-      $button = $('<button type="button" class="btn btn-default btn-sm btn-small" title="' + name + '" data-shortcut="Ctrl+B" data-mac-shortcut="⌘+B" data-event="bolds" tabindex="-1"><i class="fa fa-bold icon-bold"></i></button>');
-      $holder.append($button);
-      $button.click(onClick);
-    };
-
-    this.editorUpdate = function () {
-      var isBold = document.queryCommandState('bold');
-      if (isBold) {
-        $button.addClass('active');
-      } else {
-        $button.removeClass('active');
-      }
-    };
+  function filesToSrcHandler(files, $editable, callback) {
+    $.each(files, function (idx, file) {
+      async.readFileAsDataURL(file).done(function (sDataURL) {
+        sEditor.insertImage($editable, sDataURL);
+      }).fail(function () {
+        callback('error!');
+        throw 'error -- todo..';
+      });
+    });
   }
 
   var features = [
-    //new BoldFeature()
     new Bold(),
-    new Italic()
+    new Italic(),
+    new Image(filesToSrcHandler)
   ];
 
 

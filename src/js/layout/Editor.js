@@ -1,4 +1,6 @@
-define(['layout/toolbar', 'core/dom'], function (toolbarLayout, dom) {
+define(['layout/toolbar',
+  'editing/History',
+  'core/dom'], function (toolbarLayout, History, dom) {
 
   function Renderer(options) {
 
@@ -7,6 +9,16 @@ define(['layout/toolbar', 'core/dom'], function (toolbarLayout, dom) {
       if (next && next.hasClass('note-editor')) { return; }
       
       var $editor = $('<div class="note-editor"></div>');
+
+
+
+      for (var i = 0; i < features.length; i++) {
+        var f = features[i];
+
+        if (f.buildDialog) {
+          f.buildDialog($editor);
+        }
+      }
 
       if (options.width) {
         $editor.width(options.width);
@@ -35,6 +47,8 @@ define(['layout/toolbar', 'core/dom'], function (toolbarLayout, dom) {
         $editable.attr('dir', options.direction);
       }
 
+      //$editable.focus
+      $editable.data('NoteHistory', new History());
       $editable.html(dom.html($holder) || dom.emptyPara);
 
       toolbarLayout.render($editor, features);
