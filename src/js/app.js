@@ -9,7 +9,9 @@ require.config({
   },
   shim: {
     bootstrap: ['jquery'],
-    CodeMirror: { exports: 'CodeMirror' },
+    CodeMirror: {
+      exports: 'CodeMirror'
+    },
     CodeMirrorXml: ['CodeMirror'],
     CodeMirrorFormatting: ['CodeMirror', 'CodeMirrorXml']
   }
@@ -18,22 +20,22 @@ require.config({
 require([
   'jquery', 'bootstrap', 'CodeMirrorFormatting',
   'summernote'
-], function ($) {
+], function($) {
 
-  function button (uid, icon) {
+  function button(uid, icon) {
     return ['<button type="button" ',
-        '  class="btn btn-default btn-sm btn-small" ',
-        '  title="test" data-event="' + uid + '" ',
-        '  tabindex="-1">',
-        '  <i class="fa ' + icon + '"></i>',
-        '</button>'
-      ].join('\n');
+      '  class="btn btn-default btn-sm btn-small" ',
+      '  title="test" data-event="' + uid + '" ',
+      '  tabindex="-1">',
+      '  <i class="fa ' + icon + '"></i>',
+      '</button>'
+    ].join('\n');
   }
 
 
   var kennyPowers = {
-    onClick: function (editor, $editable, range) {
-      
+    onClick: function(editor, $editable, range) {
+
       editor.recordUndo($editable);
       editor.restoreRange($editable);
       var url = 'https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcQsUU2rnO7aifTmF-TsnYfEN7HsAXLgYu_iUjzBS6aj1WFh6oPF';
@@ -41,14 +43,14 @@ require([
       range.create().insertNode($node[0]);
     },
     uid: 'add-kenny-powers',
-    toolbarButton: function () {
+    toolbarButton: function() {
       return button(this.uid, 'fa-trophy');
     }
   };
 
   var customMarkup = {
 
-    onClick: function (editor, $editable, range) {
+    onClick: function(editor, $editable, range) {
       editor.recordUndo($editable);
       editor.restoreRange($editable);
       var $node = $('<div>');
@@ -56,18 +58,23 @@ require([
       range.create().insertNode($node[0]);
     },
     uid: 'custom-comp',
-    toolbarButton: function () {
+    toolbarButton: function() {
       return button(this.uid, 'fa-anchor');
     }
   };
 
+  $('#getCode').click(function() {
+    var html = $('.summernote').code();
+    $('#codeHolder').html(html);
+  });
+
   // summernote
   $('.summernote').summernote({
-    height: 300,                  // set editable area's height
-    focus: true,                  // set focus editable area after summernote loaded
-    tabsize: 2,                   // size of tab
+    height: 300, // set editable area's height
+    focus: true, // set focus editable area after summernote loaded
+    tabsize: 2, // size of tab
     // disableDragAndDrop: false, // disable drag and drop event
-    codemirror: {                 // code mirror options
+    codemirror: { // code mirror options
       theme: 'monokai'
     },
     buttons: [

@@ -29,25 +29,25 @@ define(['editing/Editor'], function(Editor) {
 
 
     var template = '<div class="note-image-dialog modal" aria-hidden="false">' +
-      '<div class="modal-dialog">' +
-      '<div class="modal-content">' +
-      '<div class="modal-header">' +
-      '<button type="button" class="close" aria-hidden="true" tabindex="-1">&times;</button>' +
-      '<h4>' + 'insert image' + '</h4>' +
-      '</div>' +
-      '<div class="modal-body">' +
-      '<div class="row-fluid">' +
-      '<h5>' + 'select from files' + '</h5>' +
-      '<input class="note-image-input" type="file" name="files" accept="image/*" />' +
-      '<h5>' + 'url' + '</h5>' +
-      '<input class="note-image-url form-control span12" type="text" />' +
-      '</div>' +
-      '</div>' +
-      '<div class="modal-footer">' +
-      '<button href="#" class="btn btn-primary note-image-btn disabled" disabled="disabled">' + 'insert' + '</button>' +
-      '</div>' +
-      '</div>' +
-      '</div>' +
+      '  <div class="modal-dialog">' +
+      '    <div class="modal-content">' +
+      '      <div class="modal-header">' +
+      '        <button type="button" class="close" aria-hidden="true" tabindex="-1">&times;</button>' +
+      '        <h4>' + 'insert image' + '</h4>' +
+      '      </div>' +
+      '      <div class="modal-body">' +
+      '        <div class="row-fluid">' +
+      '        <h5>' + 'select from files' + '</h5>' +
+      '        <input class="note-image-input" type="file" name="files" accept="image/*" />' +
+      '        <h5>' + 'url' + '</h5>' +
+      '        <input class="note-image-url form-control span12" type="text" />' +
+      '      </div>' +
+      '    </div>' +
+      '    <div class="modal-footer">' +
+      '      <button href="#" class="btn btn-primary note-image-btn disabled" disabled="disabled">' + 'insert' + '</button>' +
+      '    </div>' +
+      '    </div>' +
+      '  </div>' +
       '</div>';
 
 

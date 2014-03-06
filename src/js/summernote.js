@@ -7,7 +7,7 @@ define([
   'editing/Editor',
   'settings',
   'EventHandler', 'Renderer'
-], function (Editor, Bold, Italic, Image, agent, dom, async, SEditor, settings, EventHandler, Renderer) {
+], function(Editor, Bold, Italic, Image, agent, dom, async, SEditor, settings, EventHandler, Renderer) {
   // jQuery namespace for summernote
   $.summernote = $.summernote || {};
 
@@ -18,10 +18,10 @@ define([
   var sEditor = new SEditor();
 
   function filesToSrcHandler(files, $editable, callback) {
-    $.each(files, function (idx, file) {
-      async.readFileAsDataURL(file).done(function (sDataURL) {
+    $.each(files, function(idx, file) {
+      async.readFileAsDataURL(file).done(function(sDataURL) {
         sEditor.insertImage($editable, sDataURL);
-      }).fail(function () {
+      }).fail(function() {
         callback('error!');
         throw 'error -- todo..';
       });
@@ -46,31 +46,13 @@ define([
      * @param {Object} options
      * @returns {this}
      */
-    summernote: function (options) {
-      // extend default options
+    summernote: function(options) {
+      var $holder;
       options = $.extend({}, $.summernote.options, options);
-
-      this.each(function (idx, elHolder) {
-        var $holder = $(elHolder);
-
-        //1. createLayout from features
-
+      this.each(function(idx, elHolder) {
+        $holder = $(elHolder);
         var editor = new Editor($holder, features, options);
         $holder.data('editor', editor);
-
-
-        // createLayout with options
-        //renderer.createLayout($holder, options, features);
-
-        //var info = renderer.layoutInfoFromHolder($holder);
-        //eventHandler.attach(info, options);
-
-        // Textarea: auto filling the code before form submit.
-        //if (dom.isTextarea($holder[0])) {
-        //  $holder.closest('form').submit(function () {
-        //    $holder.html($holder.code());
-        //  });
-        //}
       });
 
       // focus on first editable element
@@ -86,54 +68,17 @@ define([
 
       return this;
     },
-    // 
-
-    /**
-     * get the HTML contents of note or set the HTML contents of note.
-     *
-     * @param {String} [sHTML] - HTML contents(optional, set)
-     * @returns {this|String} - context(set) or HTML contents of note(get).
-    code: function (sHTML) {
-      // get the HTML contents of note
-      if (sHTML === undefined) {
-        var $holder = this.first();
-        if ($holder.length === 0) { return; }
-        var info = renderer.layoutInfoFromHolder($holder);
-        if (!!(info && info.editable)) {
-          var bCodeview = info.editor.hasClass('codeview');
-          if (bCodeview && agent.bCodeMirror) {
-            info.codable.data('cmEditor').save();
-          }
-          return bCodeview ? info.codable.val() : info.editable.html();
-        }
-        return $holder.html();
+    /** get the current code */
+    code: function() {
+      var $holder = this.first();
+      if ($holder.length === 0) {
+        return;
       }
-
-      // set the HTML contents of note
-      this.each(function (i, elHolder) {
-        var info = renderer.layoutInfoFromHolder($(elHolder));
-        if (info && info.editable) { info.editable.html(sHTML); }
-      });
-
-      return this;
-    },
-     */
-
-    /**
-     * destroy Editor Layout and dettach Key and Mouse Event
-     * @returns {this}
-    destroy: function () {
-      this.each(function (idx, elHolder) {
-        var $holder = $(elHolder);
-
-        var info = renderer.layoutInfoFromHolder($holder);
-        if (!info || !info.editable) { return; }
-        eventHandler.dettach(info);
-        renderer.removeLayout($holder);
-      });
-
-      return this;
+      var info = renderer.layoutInfoFromHolder($holder);
+      if ( !! (info && info.editable)) {
+        return info.editable.html();
+      }
+      return $holder.html();
     }
-     */
   });
 });
