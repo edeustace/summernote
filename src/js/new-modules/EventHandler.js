@@ -17,6 +17,8 @@ define([], function () {
 
     function onMouseup(e) {
       $editable = $(e.currentTarget).closest('.note-editable');
+
+      console.log(document.getSelection().rangeCount);
       for (var i = 0; i < features.length; i++) {
         var f = features[i];
         if (f.editorUpdate) {
@@ -29,8 +31,10 @@ define([], function () {
       return $editable;
     }
 
-    editor.$editable().on('keyup', onKeyup);
-    editor.$editable().on('mouseup', onMouseup);
+    $editable = editor.$editable();
+    $editable.on('keyup', onKeyup);
+    $editable.on('mouseup', onMouseup);
+
 
     for (var i = 0; i < features.length; i++) {
       var f = features[i];

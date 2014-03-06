@@ -47,9 +47,10 @@ define(['editing/Editor'], function (Editor) {
       }
     };
 
-    this.onToolbarClick = function () {
+    this.onToolbarClick = function (event) {
+      event.preventDefault();
+      event.stopPropagation();
 
-      var $editable = getEditable();
       var $imageInput = this.$dialog.find('.note-image-input');
       var $imageUrl = this.$dialog.find('.note-image-url');
       var $imageBtn = this.$dialog.find('.note-image-btn');
@@ -63,8 +64,8 @@ define(['editing/Editor'], function (Editor) {
       });
 
       function fnInsertImage(url) {
-        editor.restoreRange($editable);
-        editor.insertImage($editable, url);
+        editor.restoreRange(getEditable());
+        editor.insertImage(getEditable(), url);
       }
 
       this.$dialog.one('shown.bs.modal', function (event) {
@@ -85,7 +86,7 @@ define(['editing/Editor'], function (Editor) {
 
       this.$dialog.one('hidden.bs.modal', function (event) {
         event.stopPropagation();
-        //$editable.focus();
+        getEditable().focus();
         $imageInput.off('change');
         //$imageUrl.off('keyup');
         //$imageBtn.off('click');
@@ -109,9 +110,10 @@ define(['editing/Editor'], function (Editor) {
       this.$button.click(this.onToolbarClick.bind(this));
     };
 
-    this.setCurrentEditable = function(cb){
+    this.setCurrentEditable = function (cb) {
       getEditable = cb;
     };
+    
     this.editorUpdate = function (e) {
 
       console.log('!', e);
